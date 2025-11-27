@@ -1,11 +1,11 @@
-// LinkedIn Context AI Chatbot - Main Script
+// Finance Regret Forecaster - Main Script
 
-class LinkedInChatbot {
+class FinanceRegretForecaster {
     constructor() {
         this.apiKey = localStorage.getItem('gemini_api_key');
         this.conversationHistory = [];
         this.isProcessing = false;
-        
+
         // DOM Elements
         this.chatMessages = document.getElementById('chat-messages');
         this.userInput = document.getElementById('user-input');
@@ -16,16 +16,16 @@ class LinkedInChatbot {
         this.apiKeyModal = document.getElementById('api-key-modal');
         this.apiKeyInput = document.getElementById('api-key-input');
         this.saveApiKeyButton = document.getElementById('save-api-key');
-        
+
         this.init();
     }
-    
+
     init() {
         // Check for API key
         if (!this.apiKey) {
             this.showApiKeyModal();
         }
-        
+
         // Event Listeners
         this.sendButton.addEventListener('click', () => this.handleSend());
         this.userInput.addEventListener('input', () => this.handleInput());
@@ -36,46 +36,46 @@ class LinkedInChatbot {
                 this.saveApiKey();
             }
         });
-        
+
         // Auto-resize textarea
         this.userInput.addEventListener('input', () => {
             this.userInput.style.height = 'auto';
             this.userInput.style.height = this.userInput.scrollHeight + 'px';
         });
     }
-    
+
     showApiKeyModal() {
         this.apiKeyModal.classList.add('active');
         this.apiKeyInput.focus();
     }
-    
+
     hideApiKeyModal() {
         this.apiKeyModal.classList.remove('active');
     }
-    
+
     saveApiKey() {
         const apiKey = this.apiKeyInput.value.trim();
-        
+
         if (!apiKey) {
             this.showError('Please enter a valid API key');
             return;
         }
-        
+
         this.apiKey = apiKey;
         localStorage.setItem('gemini_api_key', apiKey);
         this.hideApiKeyModal();
         this.updateStatus('Ready', 'success');
         this.apiKeyInput.value = '';
     }
-    
+
     handleInput() {
         const length = this.userInput.value.length;
         this.charCount.textContent = `${length}/2000`;
-        
+
         // Enable/disable send button
         this.sendButton.disabled = length === 0 || this.isProcessing;
     }
-    
+
     handleKeyDown(e) {
         // Send on Enter (without Shift)
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -85,50 +85,50 @@ class LinkedInChatbot {
             }
         }
     }
-    
+
     async handleSend() {
         const message = this.userInput.value.trim();
-        
+
         if (!message || this.isProcessing) return;
-        
+
         // Clear input
         this.userInput.value = '';
         this.userInput.style.height = 'auto';
         this.handleInput();
-        
+
         // Add user message to chat
         this.addMessage(message, 'user');
-        
+
         // Show typing indicator
         this.showTypingIndicator();
-        
+
         // Process message
         await this.processMessage(message);
-        
+
         // Hide typing indicator
         this.hideTypingIndicator();
     }
-    
+
     async processMessage(message) {
         this.isProcessing = true;
         this.updateStatus('Thinking...', 'processing');
-        
+
         try {
-            // Create LinkedIn-focused prompt
-            const linkedInPrompt = this.createLinkedInPrompt(message);
-            
+            // Create Finance Regret Forecast prompt
+            const regretPrompt = this.createRegretForecastPrompt(message);
+
             // Call Gemini API
-            const response = await this.callGeminiAPI(linkedInPrompt);
-            
+            const response = await this.callGeminiAPI(regretPrompt);
+
             // Add bot response to chat
             this.addMessage(response, 'bot');
-            
+
             // Update conversation history
             this.conversationHistory.push(
                 { role: 'user', content: message },
                 { role: 'assistant', content: response }
             );
-            
+
             this.updateStatus('Ready', 'success');
         } catch (error) {
             console.error('Error processing message:', error);
@@ -137,7 +137,7 @@ class LinkedInChatbot {
                 'bot'
             );
             this.updateStatus('Error', 'error');
-            
+
             // If API key is invalid, show modal
             if (error.message.includes('API key') || error.message.includes('401') || error.message.includes('403')) {
                 setTimeout(() => this.showApiKeyModal(), 2000);
@@ -147,31 +147,39 @@ class LinkedInChatbot {
             this.sendButton.disabled = false;
         }
     }
-    
-    createLinkedInPrompt(userMessage) {
-        const systemContext = `You are a LinkedIn expert AI assistant. Your role is to provide helpful, professional, and actionable advice about LinkedIn and professional networking. 
 
-Focus on:
-- LinkedIn profile optimization
-- Professional networking strategies
-- Career development advice
-- Content creation for LinkedIn
-- Job search guidance
-- Personal branding
-- Industry insights and trends
+    createRegretForecastPrompt(userMessage) {
+        const systemContext = `You are an expert Finance Regret Forecaster - a specialized AI that predicts future purchase regret based on psychological tendencies and spending behavior.
 
-Provide specific, actionable advice. Use a friendly yet professional tone. Include examples when relevant.
+Your role is to:
+1. **Analyze the Purchase**: Understand what the user wants to buy, the price, and their reasoning
+2. **Assess Psychological Patterns**: Identify emotional vs. rational decision-making, impulse buying triggers, FOMO (fear of missing out)
+3. **Evaluate Spending Behavior**: Consider if this aligns with typical value-driven purchases or is an outlier
+4. **Predict Regret Level**: Give a regret probability score (0-100%) with detailed reasoning
+5. **Provide Time-based Insights**: How will they feel in 1 week, 1 month, 6 months, 1 year?
+6. **Suggest Alternatives**: Recommend better purchases or waiting strategies
 
-User's question: ${userMessage}
+Always structure your response with:
+📊 **REGRET FORECAST**: [percentage]%
+🧠 **Psychological Analysis**: [key insights about their decision-making]
+💰 **Financial Wisdom**: [spending behavior patterns]
+⏰ **Timeline Projection**: [how regret evolves over time]
+🎯 **Value Assessment**: [does it align with their needs?]
+💡 **Recommendation**: [buy now/wait/alternatives]
+✨ **Better Options**: [if applicable]
 
-Provide a comprehensive response with LinkedIn context:`;
-        
+Be honest, insightful, and help them make decisions they won't regret. Use behavioral economics, psychology research, and financial wisdom.
+
+User's potential purchase: ${userMessage}
+
+Provide your comprehensive regret forecast:`;
+
         return systemContext;
     }
-    
+
     async callGeminiAPI(prompt) {
         const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
-        
+
         const requestBody = {
             contents: [{
                 parts: [{
@@ -185,7 +193,7 @@ Provide a comprehensive response with LinkedIn context:`;
                 maxOutputTokens: 2048,
             }
         };
-        
+
         const response = await fetch(`${API_URL}?key=${this.apiKey}`, {
             method: 'POST',
             headers: {
@@ -193,37 +201,37 @@ Provide a comprehensive response with LinkedIn context:`;
             },
             body: JSON.stringify(requestBody)
         });
-        
+
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
             throw new Error(`API Error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
         }
-        
+
         const data = await response.json();
-        
+
         if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
             throw new Error('Invalid response from API');
         }
-        
+
         return data.candidates[0].content.parts[0].text;
     }
-    
+
     addMessage(text, type) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${type}-message`;
-        
+
         const avatarDiv = document.createElement('div');
         avatarDiv.className = 'message-avatar';
-        
+
         if (type === 'bot') {
             avatarDiv.innerHTML = `
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="12" r="10" fill="url(#avatarGradient${Date.now()})"/>
-                    <path d="M12 6V12L16 14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M12 8L13 11H16L13.5 13L14.5 16L12 14L9.5 16L10.5 13L8 11H11L12 8Z" fill="white"/>
                     <defs>
                         <linearGradient id="avatarGradient${Date.now()}" x1="0" y1="0" x2="24" y2="24">
-                            <stop stop-color="#0077B5"/>
-                            <stop offset="1" stop-color="#00A0DC"/>
+                            <stop stop-color="#ef4444"/>
+                            <stop offset="1" stop-color="#dc2626"/>
                         </linearGradient>
                     </defs>
                 </svg>
@@ -243,22 +251,22 @@ Provide a comprehensive response with LinkedIn context:`;
                 </svg>
             `;
         }
-        
+
         const contentDiv = document.createElement('div');
         contentDiv.className = 'message-content';
-        
+
         const textDiv = document.createElement('div');
         textDiv.className = 'message-text';
-        
+
         // Format text with markdown-like features
         textDiv.innerHTML = this.formatMessage(text);
-        
+
         contentDiv.appendChild(textDiv);
         messageDiv.appendChild(avatarDiv);
         messageDiv.appendChild(contentDiv);
-        
+
         this.chatMessages.appendChild(messageDiv);
-        
+
         // Scroll to bottom with smooth animation
         setTimeout(() => {
             this.chatMessages.parentElement.scrollTo({
@@ -267,32 +275,32 @@ Provide a comprehensive response with LinkedIn context:`;
             });
         }, 100);
     }
-    
+
     formatMessage(text) {
         // Convert markdown-like syntax to HTML
         let formatted = text;
-        
+
         // Bold text **text**
         formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        
+
         // Italic text *text*
         formatted = formatted.replace(/\*(.*?)\*/g, '<em>$1</em>');
-        
+
         // Code blocks `code`
-        formatted = formatted.replace(/`(.*?)`/g, '<code style="background: rgba(0, 119, 181, 0.1); padding: 2px 6px; border-radius: 4px; font-family: monospace;">$1</code>');
-        
+        formatted = formatted.replace(/`(.*?)`/g, '<code style="background: rgba(239, 68, 68, 0.1); padding: 2px 6px; border-radius: 4px; font-family: monospace;">$1</code>');
+
         // Line breaks
         formatted = formatted.replace(/\n/g, '<br>');
-        
+
         // Numbered lists
         formatted = formatted.replace(/^(\d+)\.\s(.+)$/gm, '<div style="margin: 4px 0;">$1. $2</div>');
-        
+
         // Bullet points
         formatted = formatted.replace(/^[-•]\s(.+)$/gm, '<div style="margin: 4px 0;">• $1</div>');
-        
+
         return formatted;
     }
-    
+
     showTypingIndicator() {
         this.typingIndicator.classList.add('active');
         this.chatMessages.parentElement.scrollTo({
@@ -300,16 +308,16 @@ Provide a comprehensive response with LinkedIn context:`;
             behavior: 'smooth'
         });
     }
-    
+
     hideTypingIndicator() {
         this.typingIndicator.classList.remove('active');
     }
-    
+
     updateStatus(text, type) {
         this.statusText.textContent = text;
         const statusDot = document.querySelector('.status-dot');
-        
-        switch(type) {
+
+        switch (type) {
             case 'success':
                 statusDot.style.background = '#10b981';
                 break;
@@ -321,7 +329,7 @@ Provide a comprehensive response with LinkedIn context:`;
                 break;
         }
     }
-    
+
     showError(message) {
         // Create a temporary error notification
         const errorDiv = document.createElement('div');
@@ -339,7 +347,7 @@ Provide a comprehensive response with LinkedIn context:`;
         `;
         errorDiv.textContent = message;
         document.body.appendChild(errorDiv);
-        
+
         setTimeout(() => {
             errorDiv.style.animation = 'slideOutRight 0.4s ease-out';
             setTimeout(() => errorDiv.remove(), 400);
@@ -374,7 +382,7 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Initialize chatbot when DOM is ready
+// Initialize Finance Regret Forecaster when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    new LinkedInChatbot();
+    new FinanceRegretForecaster();
 });
