@@ -2,7 +2,8 @@
 
 class FinanceRegretForecaster {
     constructor() {
-        this.apiKey = localStorage.getItem('gemini_api_key');
+        // Using the integrated API key
+        this.apiKey = 'AIzaSyDqKWMMVEL9zFiq7nbQX558_3zbz_nPSrs';
         this.conversationHistory = [];
         this.isProcessing = false;
 
@@ -178,7 +179,7 @@ Provide your comprehensive regret forecast:`;
     }
 
     async callGeminiAPI(prompt) {
-        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
         const requestBody = {
             contents: [{
