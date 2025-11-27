@@ -1,4 +1,3 @@
-
 /* CSS Reset and Base Styles */
 * {
     margin: 0;
@@ -7,39 +6,39 @@
 }
 
 :root {
-    /* LinkedIn Brand Colors */
-    --linkedin-blue: #0077B5;
-    --linkedin-light-blue: #00A0DC;
-    --linkedin-dark: #004182;
-    
+    /* Finance Regret Brand Colors */
+    --regret-red: #ef4444;
+    --regret-light-red: #f87171;
+    --regret-dark: #dc2626;
+
     /* Modern Color Palette */
-    --bg-primary: #0a0e1a;
-    --bg-secondary: #141824;
-    --bg-tertiary: #1a1f2e;
-    --bg-card: rgba(26, 31, 46, 0.6);
+    --bg-primary: #0f0a0a;
+    --bg-secondary: #1a1212;
+    --bg-tertiary: #241a1a;
+    --bg-card: rgba(36, 26, 26, 0.6);
     --bg-glass: rgba(255, 255, 255, 0.05);
-    
+
     /* Text Colors */
     --text-primary: #ffffff;
-    --text-secondary: #b4bcd0;
-    --text-muted: #6b7280;
-    
+    --text-secondary: #d0b4b4;
+    --text-muted: #806b6b;
+
     /* Accent Colors */
-    --accent-gradient: linear-gradient(135deg, #0077B5 0%, #00A0DC 100%);
-    --accent-glow: rgba(0, 119, 181, 0.3);
-    
+    --accent-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    --accent-glow: rgba(239, 68, 68, 0.3);
+
     /* Borders */
     --border-color: rgba(255, 255, 255, 0.1);
     --border-radius-sm: 8px;
     --border-radius-md: 12px;
     --border-radius-lg: 16px;
-    
+
     /* Shadows */
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
     --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
     --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
     --shadow-glow: 0 0 20px var(--accent-glow);
-    
+
     /* Transitions */
     --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -63,18 +62,25 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
-        radial-gradient(circle at 20% 30%, rgba(0, 119, 181, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(0, 160, 220, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(0, 119, 181, 0.05) 0%, transparent 70%);
+    background:
+        radial-gradient(circle at 20% 30%, rgba(239, 68, 68, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(220, 38, 38, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.05) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
     animation: backgroundPulse 15s ease-in-out infinite;
 }
 
 @keyframes backgroundPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
 }
 
 .container {
@@ -108,6 +114,7 @@ body::before {
         opacity: 0;
         transform: translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -125,8 +132,15 @@ body::before {
 }
 
 @keyframes logoFloat {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
 }
 
 .logo-text h1 {
@@ -166,10 +180,13 @@ body::before {
 }
 
 @keyframes pulse {
-    0%, 100% {
+
+    0%,
+    100% {
         opacity: 1;
         transform: scale(1);
     }
+
     50% {
         opacity: 0.7;
         transform: scale(1.1);
@@ -196,6 +213,7 @@ body::before {
         opacity: 0;
         transform: scale(0.95);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
@@ -220,6 +238,7 @@ body::before {
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -239,7 +258,7 @@ body::before {
 }
 
 .bot-message .message-avatar {
-    border-color: var(--linkedin-blue);
+    border-color: var(--regret-red);
     box-shadow: 0 0 15px var(--accent-glow);
 }
 
@@ -256,8 +275,8 @@ body::before {
 }
 
 .bot-message .message-text {
-    background: linear-gradient(135deg, rgba(0, 119, 181, 0.1) 0%, rgba(0, 160, 220, 0.05) 100%);
-    border: 1px solid rgba(0, 119, 181, 0.2);
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.05) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.2);
     color: var(--text-primary);
 }
 
@@ -296,7 +315,7 @@ body::before {
 }
 
 .welcome-message .message-text li:hover {
-    color: var(--linkedin-light-blue);
+    color: var(--regret-light-red);
     transform: translateX(5px);
     transition: all var(--transition-fast);
 }
@@ -318,15 +337,15 @@ body::before {
     display: flex;
     gap: 6px;
     padding: 12px 16px;
-    background: linear-gradient(135deg, rgba(0, 119, 181, 0.1) 0%, rgba(0, 160, 220, 0.05) 100%);
-    border: 1px solid rgba(0, 119, 181, 0.2);
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.05) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.2);
     border-radius: var(--border-radius-md);
 }
 
 .typing-dots span {
     width: 8px;
     height: 8px;
-    background: var(--linkedin-blue);
+    background: var(--regret-red);
     border-radius: 50%;
     animation: typingBounce 1.4s ease-in-out infinite;
 }
@@ -340,9 +359,13 @@ body::before {
 }
 
 @keyframes typingBounce {
-    0%, 60%, 100% {
+
+    0%,
+    60%,
+    100% {
         transform: translateY(0);
     }
+
     30% {
         transform: translateY(-10px);
     }
@@ -368,7 +391,7 @@ body::before {
 }
 
 .input-wrapper:focus-within {
-    border-color: var(--linkedin-blue);
+    border-color: var(--regret-red);
     box-shadow: var(--shadow-md), 0 0 0 3px var(--accent-glow);
 }
 
@@ -470,6 +493,7 @@ body::before {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -491,6 +515,7 @@ body::before {
         opacity: 0;
         transform: translateY(30px) scale(0.9);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -537,7 +562,7 @@ body::before {
 
 .modal-body input:focus {
     outline: none;
-    border-color: var(--linkedin-blue);
+    border-color: var(--regret-red);
     box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
@@ -548,13 +573,13 @@ body::before {
 }
 
 .help-text a {
-    color: var(--linkedin-blue);
+    color: var(--regret-red);
     text-decoration: none;
     transition: color var(--transition-fast);
 }
 
 .help-text a:hover {
-    color: var(--linkedin-light-blue);
+    color: var(--regret-light-red);
     text-decoration: underline;
 }
 
@@ -604,7 +629,7 @@ body::before {
 }
 
 .chat-container::-webkit-scrollbar-thumb:hover {
-    background: var(--linkedin-blue);
+    background: var(--regret-red);
 }
 
 /* Responsive Design */
@@ -612,28 +637,28 @@ body::before {
     .container {
         padding: 12px;
     }
-    
+
     .header {
         padding: 16px;
         flex-direction: column;
         gap: 16px;
         text-align: center;
     }
-    
+
     .logo-container {
         flex-direction: column;
         gap: 8px;
     }
-    
+
     .logo-text h1 {
         font-size: 1.25rem;
     }
-    
+
     .chat-container {
         max-height: calc(100vh - 350px);
         padding: 16px;
     }
-    
+
     .modal-content {
         padding: 24px;
     }
@@ -644,6 +669,7 @@ body::before {
     0% {
         background-position: -1000px 0;
     }
+
     100% {
         background-position: 1000px 0;
     }
@@ -651,11 +677,9 @@ body::before {
 
 .loading {
     animation: shimmer 2s infinite;
-    background: linear-gradient(
-        to right,
-        transparent 0%,
-        var(--accent-glow) 50%,
-        transparent 100%
-    );
+    background: linear-gradient(to right,
+            transparent 0%,
+            var(--accent-glow) 50%,
+            transparent 100%);
     background-size: 1000px 100%;
 }
